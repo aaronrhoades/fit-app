@@ -4,7 +4,7 @@ import { Exercise } from '@features/exercise/exercise';
 import { Workout } from '../models/workout';
 import { WorkoutService } from '../services/workout.service';
 import { Router } from '@angular/router';
-import { tap, switchMap } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 
 @Component({

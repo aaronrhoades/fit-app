@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using FitAppApi.Models;
+using FitAppApi.Services;
 
 namespace FitAppApi.Controllers
 {
@@ -8,77 +9,49 @@ namespace FitAppApi.Controllers
     [ApiController]
     public class WorkoutController : ControllerBase
     {
+        private readonly IWorkoutService _workoutService;
+        public WorkoutController(IWorkoutService workoutService)
+        {
+            _workoutService = workoutService;
+        }
         // GET: api/Workout
         [HttpGet]
-        public IEnumerable<Workout> Get()
+        public async Task<IEnumerable<Workout>> Get()
         {
-            // TODO: Implement logic to retrieve workouts from the database
-            Workout workout1 = new Workout
-            {
-                Id = Guid.NewGuid(),
-                Title = "Full Body Workout",
-                Description = "A workout that targets all major muscle groups.",
-                Exercises = new List<Exercise>
-                {
-                    new Exercise { Id = Guid.NewGuid(), Title = "Push-ups", Description = "A basic upper body exercise." },
-                    new Exercise { Id = Guid.NewGuid(), Title = "Squats", Description = "A fundamental lower body exercise." }
-                }
-            };
-            var workouts = new List<Workout>
-            {
-                workout1,
-                new Workout { Id = Guid.NewGuid(), Title = "Workout 1", Description = "Description for Workout 1" },
-                new Workout { Id = Guid.NewGuid(), Title = "Workout 2", Description = "Description for Workout 2" }
-            };
-
-            return workouts;
+            return await _workoutService.GetAllAsync();
         }
 
         // GET: api/Workout/5
         [HttpGet("{id}")]
-        public Workout Get(string id)
+        public async Task<Workout?> Get(string id)
         {
-            var pushUps = new Exercise { Id = Guid.NewGuid(), Title = "Push-ups", Description = "A basic upper body exercise." };
-            var squats = new Exercise { Id = Guid.NewGuid(), Title = "Squats", Description = "A fundamental lower body exercise." };
-
-            Workout workout1 = new Workout
-            {
-                Id = Guid.NewGuid(),
-                Title = "Full Body Workout",
-                Description = "A workout that targets all major muscle groups.",
-                Exercises = new List<Exercise>
-                {
-                    pushUps,
-                    squats,
-                    pushUps,
-                    squats,
-                    pushUps,
-                    squats
-                }
-            };
-            // TODO: Implement logic to retrieve a specific workout from the database
-            return workout1;
+            return await _workoutService.GetByIdAsync(Guid.Parse(id));
         }
 
         // POST: api/Workout
         [HttpPost]
-        public IActionResult Post([FromBody] Workout workout)
+        public async Task<IActionResult> Post([FromBody] Workout workout)
         {
-
-            return Ok();
+            return await _workoutService.CreateAsync(workout) != null ? Ok(workout) : BadRequest();
         }
 
         // PUT: api/Workout/5
         [HttpPut("{id}")]
-        public void Put(string id, [FromBody] Workout workout)
+        public async Task<IActionResult> Put(string id, [FromBody] Workout workout)
         {
+            return await _workoutService.UpdateAsync(Guid.Parse(id), workout) != null ? Ok(workout) : NotFound();
         }
 
         // DELETE: api/Workout/5
         [HttpDelete("{id}")]
-        public IActionResult Delete(string id)
+        public async Task<IActionResult> Delete(string id)
         {
-            return Ok();
+            Guid guid = Guid.Parse(id);
+            if(guid == Guid.Empty)
+            {
+                return BadRequest("Invalid ID format");
+            }
+            return await _workoutService.DeleteAsync(guid) ? Ok() : NotFound();
         }
     }
 }

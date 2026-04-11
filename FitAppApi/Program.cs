@@ -1,7 +1,18 @@
+using FitAppApi.Data;
+using FitAppApi.Services;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
 
 var builder = WebApplication.CreateBuilder(args);
 var allowedOrigins = builder.Configuration.GetSection("AllowedOrigins").Get<string[]>() ?? throw new InvalidOperationException("AllowedOrigins configuration is missing or invalid.");
+
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("DefaultConnection string is missing in configuration.");
+
+builder.Services.AddDbContext<FitAppDbContext>(options =>
+    options.UseNpgsql(connectionString)
+);
+
+builder.Services.AddScoped<IWorkoutService, WorkoutService>();
 
 // Add services to the container.
 builder.Services.AddCors(options =>

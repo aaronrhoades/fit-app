@@ -1,8 +1,9 @@
-import { Exercise } from "@features/exercise/exercise";
+import { WorkoutExercise } from "./workoutExercise";
+
 export class Workout {
     id: string = "";
     title?: string;
     description?: string;
-    exercises?: Exercise[];
+    imageUrl?: string;
+    workoutExercises?: WorkoutExercise[];
 }
-

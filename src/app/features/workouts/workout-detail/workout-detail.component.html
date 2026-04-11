@@ -8,7 +8,7 @@
     <button (click)="goBackToAllWorkouts()">Back to Workouts</button>
 }
 @else {
-  <app-exercise [exercise]="currentExercise()"></app-exercise>
+  <app-exercise [exercise]="currentExercise()?.exercise ?? null"></app-exercise>
 }
 @if(currentExerciseIndex() !== null && !isLastExercise()) {
     <!-- <button (click)="previousExercise()" [disabled]="isFirstExercise()">Previous</button> -->

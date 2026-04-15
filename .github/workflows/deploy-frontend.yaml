@@ -45,7 +45,7 @@ jobs:
       - name: Deploy to S3
         working-directory: ./FitAppAngular
         run: |
-          aws s3 sync dist/ s3://${{ secrets.S3_BUCKET_NAME }} --delete
+          aws s3 sync ./dist/fit-app/browser s3://${{ secrets.S3_BUCKET_NAME }} --delete
 
       - name: Invalidate CloudFront
         run: |

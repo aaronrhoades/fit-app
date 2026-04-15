@@ -1,0 +1,18 @@
+@if(currentExerciseIndex() === null && !isWorkoutComplete()) {
+    <p>Ready to start?</p>
+    <button (click)="startWorkout()">Start Workout</button>
+}
+@else if(isWorkoutComplete()) {
+    <p>Workout complete! Great job!</p>
+    <button (click)="startWorkout()">Restart Workout</button>
+    <button (click)="goBackToAllWorkouts()">Back to Workouts</button>
+}
+@else {
+  <app-exercise [exercise]="currentExercise()?.exercise ?? null"></app-exercise>
+}
+@if(currentExerciseIndex() !== null && !isLastExercise()) {
+    <!-- <button (click)="previousExercise()" [disabled]="isFirstExercise()">Previous</button> -->
+    <button (click)="nextExercise()" [disabled]="isLastExercise()">Next</button>
+} @else if (isLastExercise()) {
+    <button (click)="finishWorkout()">Finish Workout</button>
+}

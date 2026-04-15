@@ -1,0 +1,7 @@
+@for(workout of workouts(); track workout.id) {
+  <div class="workout-card">
+    <h3>{{ workout.title }}</h3>
+    <p>{{ workout.description }}</p>
+    <a [routerLink]="['/workout', workout.id]">Go to Workout</a>
+  </div>
+}

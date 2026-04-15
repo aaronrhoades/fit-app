@@ -22,7 +22,7 @@ jobs:
         run: dotnet publish FitAppApi/FitAppApi.csproj -c Release -o ./publish
   
       - name: Create Deployment Package
-        run: cd FitAppApi/publish && zip -r ../bundle.zip .
+        run: cd publish && zip -r ../bundle.zip .
 
       - name: Deploy to Elastic Beanstalk
         uses: aws-actions/aws-elasticbeanstalk-deploy@v1.0.4

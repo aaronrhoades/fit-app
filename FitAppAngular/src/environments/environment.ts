@@ -1,4 +1,4 @@
 export const environment = {
     production: true,
-    apiUrl: 'https://api.yourproductionurl.com' // Adjust the API URL for production
+    apiUrl: 'https://fitapp.us-east-1.elasticbeanstalk.com'
 };

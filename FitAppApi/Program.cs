@@ -2,11 +2,20 @@ using FitAppApi.Data;
 using FitAppApi.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
+using FitAppApi.AWS;
+using Amazon;
+using Amazon.SecretsManager;
+using Amazon.SecretsManager.Model;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddAWSService<IAmazonSecretsManager>();
+var secretService = new SecretManagerService(new AmazonSecretsManagerClient(Amazon.RegionEndpoint.USEast1));
+string connectionString = await secretService.GetDatabaseConnectionString();
+
+builder.Configuration["ConnectionStrings:DefaultConnection"] = connectionString; // Override the connection string in configuration with the one from AWS Secrets Manager
+
 var allowedOrigins = builder.Configuration.GetSection("AllowedOrigins").Get<string[]>() ?? throw new InvalidOperationException("AllowedOrigins configuration is missing or invalid.");
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("DefaultConnection string is missing in configuration.");
 
 builder.Services.AddDbContext<FitAppDbContext>(options =>
     options.UseNpgsql(connectionString)

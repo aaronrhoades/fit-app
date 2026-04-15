@@ -1,0 +1,8 @@
+- name: Deploy to Elastic Beanstalk
+  uses: aws-elasticbeanstalk-deploy@v1
+  with:
+    application-name: ${{ secrets.ELASTIC_BEANSTALK_APPLICATION_NAME }}
+    environment-name: ${{ secrets.ELASTIC_BEANSTALK_ENVIRONMENT_NAME }}
+    region: ${{ secrets.AWS_REGION }}
+    source-path: FitAppApi/
+    wait-for-deployment: true

@@ -29,6 +29,6 @@ jobs:
         with:
           application-name: ${{ secrets.ELASTIC_BEANSTALK_APPLICATION_NAME }}
           environment-name: ${{ secrets.ELASTIC_BEANSTALK_ENVIRONMENT_NAME }}
-          region: ${{ secrets.AWS_REGION }}
+          aws-region: ${{ secrets.AWS_REGION }}
           source-bundle: FitAppApi/bundle.zip
           wait-for-deployment: true

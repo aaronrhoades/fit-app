@@ -1,4 +1,4 @@
-name: Deploy Angular Frontend
+name: Deploy Angular Frontend to S3 and CloudFront
 
 'on':
   push:

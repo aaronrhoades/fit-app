@@ -18,11 +18,17 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
+      - name: Build and Publish
+        run: dotnet publish FitAppApi/FitAppApi.csproj -c Release -o ./publish
+  
+      - name: Create Deployment Package
+        run: cd FitAppApi/publish && zip -r ../bundle.zip .
+
       - name: Deploy to Elastic Beanstalk
-        uses: aws-actions/aws-elasticbeanstalk-deploy@v1
+        uses: aws-actions/aws-elasticbeanstalk-deploy@v1.0.4
         with:
           application-name: ${{ secrets.ELASTIC_BEANSTALK_APPLICATION_NAME }}
           environment-name: ${{ secrets.ELASTIC_BEANSTALK_ENVIRONMENT_NAME }}
           region: ${{ secrets.AWS_REGION }}
-          source-bundle: FitAppApi/
+          source-bundle: FitAppApi/bundle.zip
           wait-for-deployment: true

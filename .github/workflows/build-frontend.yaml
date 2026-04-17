@@ -1,0 +1,36 @@
+name: CI - Frontend Build Validation
+
+'on':
+  pull_request:
+    branches:
+      - main
+    paths:
+      - FitAppAngular/**
+
+jobs:
+  build_check:
+    name: Build and Validate FE
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: FitAppAngular/package-lock.json
+
+      - name: Install dependencies
+        working-directory: ./FitAppAngular
+        run: npm ci
+
+      - name: Lint
+        working-directory: ./FitAppAngular
+        run: npm run lint
+
+      - name: Build Angular app
+        working-directory: ./FitAppAngular
+        run: npm run build --prod

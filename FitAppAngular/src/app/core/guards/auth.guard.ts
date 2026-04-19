@@ -2,7 +2,9 @@ import { CanMatchFn, Router } from '@angular/router';
 import { inject } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 
-export const authGuard: CanMatchFn = (route, segments) => {
+// route and segments should be used or removed in the future when we have more complex routing and need to determine access based on route parameters or segments
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const authGuard: CanMatchFn = (route, segments) => { //TODO: use route and segments to determine if the user has access to the route
 const authService = inject(AuthService);
   const router = inject(Router);
 

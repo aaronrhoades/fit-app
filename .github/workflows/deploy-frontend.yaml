@@ -6,11 +6,6 @@ name: Deploy Angular Frontend to S3 and CloudFront
       - main
     paths:
       - FitAppAngular/**
-  pull_request:
-    branches:
-      - main
-    paths:
-      - FitAppAngular/**
 
 jobs:
   deploy:

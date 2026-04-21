@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
+import { WakeLockStore } from '@core/store/wake-lock-store';
 import { Exercise } from './exercise';
 
 @Component({
@@ -7,6 +8,16 @@ import { Exercise } from './exercise';
   templateUrl: './exercise.component.html',
   styleUrl: './exercise.component.scss',
 })
-export class ExerciseComponent {
+export class ExerciseComponent implements OnInit, OnDestroy {
   @Input() exercise: Exercise | null = null;
+  private readonly wakeLockStore = inject(WakeLockStore);
+
+  ngOnInit() {
+    // Just set the state; the store's rxMethod handles the rest
+    this.wakeLockStore.setWakeLock(true);
+  }
+
+  ngOnDestroy() {
+    this.wakeLockStore.setWakeLock(false);
+  }
 }

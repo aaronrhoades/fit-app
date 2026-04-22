@@ -5,7 +5,7 @@ import { combineLatest, fromEvent, pipe, startWith, switchMap, tap } from 'rxjs'
 
 export const WakeLockStore = signalStore(
     { providedIn: 'root' },
-    withState({ isWakeLockActive: false }),
+    withState({ isWakeLockActive: false, errors: [] as string[] }),
     withMethods((store) => {
         let sentinel: WakeLockSentinel | null = null;
 
@@ -15,16 +15,21 @@ export const WakeLockStore = signalStore(
             if (!('wakeLock' in navigator)) return;
 
             const isVisible = document.visibilityState === 'visible';
+            if (!document.hasFocus() && !isVisible) return;
 
             if (isActive && isVisible && !sentinel) {
+                // Give the browser 100ms to "settle" after coming back from background
+                await new Promise(resolve => setTimeout(resolve, 100));
+                
                 try {
                     sentinel = await navigator.wakeLock.request('screen');
                     // If the system releases the lock, let our store know
                     sentinel.onrelease = () => {
                         sentinel = null;
                     };
-                } catch (err) {
+                } catch (err: any) {
                     console.error('WakeLock failed:', err);
+                    patchState(store, { errors: [err.message, 'Failed to acquire wake lock'] });
                 }
             } else if ((!isActive || !isVisible) && sentinel) {
                 await sentinel.release();

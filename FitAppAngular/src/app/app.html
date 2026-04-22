@@ -1,1 +1,7 @@
 <router-outlet />
+<p>
+    {{wakeLockStore.isWakeLockActive() ? 'Wake Lock Active' : 'Wake Lock Inactive'}}
+</p>
+<p>
+    {{wakeLockStore.errors.length > 0 ? 'Errors: ' + wakeLockStore.errors().join(', ') : ''}}
+</p>

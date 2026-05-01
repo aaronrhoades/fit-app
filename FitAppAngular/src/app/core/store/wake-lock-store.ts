@@ -20,16 +20,19 @@ export const WakeLockStore = signalStore(
             if (isActive && isVisible && !sentinel) {
                 // Give the browser 100ms to "settle" after coming back from background
                 await new Promise(resolve => setTimeout(resolve, 100));
-                
+
                 try {
                     sentinel = await navigator.wakeLock.request('screen');
                     // If the system releases the lock, let our store know
                     sentinel.onrelease = () => {
                         sentinel = null;
                     };
-                } catch (err: any) {
-                    console.error('WakeLock failed:', err);
-                    patchState(store, { errors: [err.message, 'Failed to acquire wake lock'] });
+                } catch (err: unknown) {
+                    if (err instanceof Error) {
+                        patchState(store, { errors: [err.message, 'Failed to acquire wake lock'] });
+                    } else {
+                        patchState(store, { errors: ['Failed to acquire wake lock'] });
+                    }
                 }
             } else if ((!isActive || !isVisible) && sentinel) {
                 await sentinel.release();

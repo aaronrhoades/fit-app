@@ -1,10 +1,10 @@
 import { Component, inject, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 import { WakeLockStore } from '@core/store/wake-lock-store';
+import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [IonApp, IonRouterOutlet],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })

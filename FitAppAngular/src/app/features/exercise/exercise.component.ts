@@ -10,6 +10,8 @@ import { Exercise } from './exercise';
 })
 export class ExerciseComponent implements OnInit, OnDestroy {
   @Input() exercise: Exercise | null = null;
+  @Input() reps: number | null = null;
+  @Input() timer: number | null = null;
   private readonly wakeLockStore = inject(WakeLockStore);
 
   ngOnInit() {

@@ -7,14 +7,20 @@ import { Router } from '@angular/router';
 import { catchError, switchMap } from 'rxjs/operators';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { of } from 'rxjs';
+import { IonButton, IonGrid, IonRow, IonCol, IonContent, IonFooter, IonHeader, IonToolbar, IonIcon, IonTitle, } from '@ionic/angular/standalone';
+import { addIcons } from 'ionicons';
+import { arrowBack } from 'ionicons/icons';
 
 @Component({
   selector: 'app-workout-detail',
-  imports: [ExerciseComponent],
+  imports: [ExerciseComponent, IonButton, IonGrid, IonRow, IonCol, IonContent, IonFooter, IonHeader, IonToolbar , IonIcon, IonTitle],
   templateUrl: './workout-detail.component.html',
   styleUrl: './workout-detail.component.scss',
 })
 export class WorkoutDetailComponent {
+    constructor() {
+      addIcons({ arrowBack });
+    }
   private router = inject(Router);
   // Using a Signal Input (best for Angular 21)
   // This will automatically hold the value of ':id' from the URL
@@ -45,6 +51,13 @@ export class WorkoutDetailComponent {
       this.currentExerciseIndex() === lastWorkoutExerciseIndex
     }
   );
+  public isFirstExercise = computed<boolean>(
+    () => {
+      return !this.isWorkoutComplete() &&
+      this.currentExerciseIndex() !== null &&
+      this.currentExerciseIndex() === 0
+    }
+  );
   private workoutService = inject(WorkoutService);
 
   startWorkout() {
@@ -66,6 +79,14 @@ export class WorkoutDetailComponent {
       this.currentExerciseIndex.set(null);
       this.currentExercise.set(null);
       this.isWorkoutComplete.set(true);
+    }
+  }
+
+  previousExercise() {
+    const prevIndex = (this.currentExerciseIndex() ?? 0) - 1;
+    if (prevIndex >= 0) {
+      this.currentExerciseIndex.set(prevIndex);
+      this.currentExercise.set(this.workout()?.workoutExercises?.[prevIndex] || null);
     }
   }
   goBackToAllWorkouts() {

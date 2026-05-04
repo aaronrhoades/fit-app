@@ -1,7 +1,18 @@
-@for(workout of workouts(); track workout.id) {
-  <div class="workout-card">
-    <h3>{{ workout.title }}</h3>
-    <p>{{ workout.description }}</p>
-    <a [routerLink]="['/workout', workout.id]">Go to Workout</a>
-  </div>
-}
+<ion-content>
+  @for(workout of workouts(); track workout.id) {
+    <ion-row>
+      <ion-col>
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>{{ workout.title }}</ion-card-title>
+            <ion-card-subtitle>{{ workout.workoutExercises?.length }} exercises</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            <p>{{ workout.description }}</p>
+          </ion-card-content>
+          <ion-button [routerLink]="['/workout', workout.id]" expand="block">Go to Workout</ion-button>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  }
+</ion-content>

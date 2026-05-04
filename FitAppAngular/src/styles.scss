@@ -17,3 +17,10 @@
 
 /* dark mode */
 @import '@ionic/angular/css/palettes/dark.always.css';
+
+:root {
+  /* This ensures the app respects the Dynamic Island/Notch */
+  --ion-safe-area-top: env(safe-area-inset-top);
+  /* This ensures the app respects the "Home Bar" at the bottom */
+  --ion-safe-area-bottom: env(safe-area-inset-bottom);
+}

@@ -66,16 +66,9 @@ export class WorkoutDetailComponent {
     this.currentExercise.set(this.workout()?.workoutExercises?.[0] || null);
   }
   finishWorkout() {
-
-  }
-  nextExerciseOrFinish() {
-    if (this.isLastExercise()) {
-          this.currentExerciseIndex.set(null);
+    this.currentExerciseIndex.set(null);
     this.currentExercise.set(null);
     this.isWorkoutComplete.set(true);
-    } else {
-      this.nextExercise();
-    }
   }
   nextExercise() {
     const nextIndex = (this.currentExerciseIndex() ?? -1) + 1;
@@ -86,6 +79,13 @@ export class WorkoutDetailComponent {
       this.currentExerciseIndex.set(null);
       this.currentExercise.set(null);
       this.isWorkoutComplete.set(true);
+    }
+  }
+  nextExerciseOrFinish() {
+    if (this.isLastExercise()) {
+      this.finishWorkout();
+    } else {
+      this.nextExercise();
     }
   }
   previousExercise() {

@@ -1,5 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
-import { WakeLockStore } from '@core/store/wake-lock-store';
+import { Component, signal } from '@angular/core';
 import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
 
 @Component({
@@ -10,5 +9,4 @@ import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
 })
 export class App {
   protected readonly title = signal('Overtone');
-  public readonly wakeLockStore = inject(WakeLockStore);
 }

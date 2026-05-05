@@ -1,11 +1,15 @@
+import { computed } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
-import { patchState, signalStore, withHooks, withMethods, withState } from '@ngrx/signals';
+import { patchState, signalStore, withComputed, withHooks, withMethods, withState } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { combineLatest, fromEvent, pipe, startWith, switchMap, tap } from 'rxjs';
 
 export const WakeLockStore = signalStore(
     { providedIn: 'root' },
-    withState({ isWakeLockActive: false, errors: [] as string[] }),
+    withState({ wakeLockReasons: {} as Record<string, boolean>, errors: [] as string[] }),
+    withComputed(({ wakeLockReasons }) => ({
+        isWakeLockActive: computed(() => Object.values(wakeLockReasons()).some(Boolean))
+    })),
     withMethods((store) => {
         let sentinel: WakeLockSentinel | null = null;
 
@@ -42,7 +46,7 @@ export const WakeLockStore = signalStore(
 
         return {
             // Method for components to call
-            setWakeLock: (value: boolean) => patchState(store, { isWakeLockActive: value }),
+            setWakeLock: (reason: string, active: boolean) => patchState(store, { wakeLockReasons: { ...store.wakeLockReasons(), [reason]: active } }),
 
             // Reactive Effect: Watches state OR visibility changes
             syncLock: rxMethod<void>(

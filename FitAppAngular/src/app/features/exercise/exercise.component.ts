@@ -16,10 +16,10 @@ export class ExerciseComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     // Just set the state; the store's rxMethod handles the rest
-    this.wakeLockStore.setWakeLock(true);
+    this.wakeLockStore.setWakeLock('exercise', true);
   }
 
   ngOnDestroy() {
-    this.wakeLockStore.setWakeLock(false);
+    this.wakeLockStore.setWakeLock('exercise', false);
   }
 }

@@ -24,3 +24,9 @@
   /* This ensures the app respects the "Home Bar" at the bottom */
   --ion-safe-area-bottom: env(safe-area-inset-bottom);
 }
+ion-footer ion-toolbar{
+  padding-bottom: var(--ion-safe-area-bottom);
+}
+.flex-1 {
+  flex: 1;
+}

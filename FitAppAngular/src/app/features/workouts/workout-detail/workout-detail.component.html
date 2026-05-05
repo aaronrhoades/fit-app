@@ -10,7 +10,9 @@
     <ion-grid>
         @if(currentExerciseIndex() === null && !isWorkoutComplete()) {
             <ion-row>
-                <p>Ready to start?</p>
+                <ion-col>
+                    <p>Ready to start?</p>
+                </ion-col>
             </ion-row>
             <ion-row>
                 <ion-col>
@@ -49,54 +51,29 @@
 </ion-content>
 @if(currentExerciseIndex() === null && !isWorkoutComplete()) {
     <ion-footer>
-        <ion-grid>
-            <ion-row>
-                <ion-col>
-                    <ion-button (click)="startWorkout()" expand="block">Start Workout</ion-button>
-                </ion-col>
-            </ion-row>
-        </ion-grid>
+        <ion-toolbar>
+            <ion-button (click)="startWorkout()" expand="block" class="ion-margin">Start Workout</ion-button>
+        </ion-toolbar>
     </ion-footer>
 }
-@else if(currentExerciseIndex() !== null && !isLastExercise()) {
+@else if(currentExerciseIndex() !== null && !isWorkoutComplete()) {
     <ion-footer>
-        <ion-grid>
-            <ion-row>
-                <ion-col size="6">
-                    <ion-button (click)="previousExercise()" [disabled]="isFirstExercise()" expand="block">Previous</ion-button>
-                </ion-col>
-                <ion-col size="6">
-                    <ion-button (click)="nextExercise()" [disabled]="isLastExercise()" expand="block">Next</ion-button>
-                </ion-col>
-            </ion-row>
-        </ion-grid>
-    </ion-footer>
-} @else if (isLastExercise()) {
-    <ion-footer>
-        <ion-grid>
-            <ion-row>
-                <ion-col size="6">
-                    <ion-button (click)="previousExercise()" [disabled]="isFirstExercise()" expand="block">Previous</ion-button>
-                </ion-col>
-                <ion-col size="6">
-                    <ion-button (click)="finishWorkout()" expand="block">Finish Workout</ion-button>
-                </ion-col>
-            </ion-row>
-        </ion-grid>
+        <ion-toolbar>
+            <ion-buttons slot="start" style="width: 100%; display: flex; justify-content: space-evenly;">
+                <ion-button (click)="previousExercise()" [disabled]="isFirstExercise()" class="flex-1" expand="block" fill="solid" color="primary">
+                    Previous
+                </ion-button>
+                <ion-button (click)="nextExerciseOrFinish()"expand="block" class="flex-1" fill="solid" color="primary">
+                    {{isLastExercise() ? 'Finish' : 'Next'}}
+                </ion-button>
+            </ion-buttons>
+        </ion-toolbar>
     </ion-footer>
 } @else if (isWorkoutComplete()) {
     <ion-footer>
-        <ion-grid>
-            <ion-row>
-                <ion-col>  
-                    <ion-button (click)="startWorkout()" expand="block">Restart Workout</ion-button>
-                </ion-col>
-            </ion-row>
-            <ion-row>
-                <ion-col>
-                    <ion-button (click)="goBackToAllWorkouts()" expand="block">Back to Workouts</ion-button>
-                </ion-col>
-            </ion-row>
-        </ion-grid>
+        <ion-toolbar>
+            <ion-button (click)="startWorkout()" expand="block">Restart Workout</ion-button>
+            <ion-button (click)="goBackToAllWorkouts()" expand="block">Back to Workouts</ion-button>
+        </ion-toolbar>  
     </ion-footer>
 }

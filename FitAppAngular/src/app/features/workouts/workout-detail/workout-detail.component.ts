@@ -7,13 +7,13 @@ import { Router } from '@angular/router';
 import { catchError, switchMap } from 'rxjs/operators';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { of } from 'rxjs';
-import { IonButton, IonGrid, IonRow, IonCol, IonContent, IonFooter, IonHeader, IonToolbar, IonIcon, IonTitle, } from '@ionic/angular/standalone';
+import { IonButton, IonButtons, IonGrid, IonRow, IonCol, IonContent, IonFooter, IonHeader, IonToolbar, IonIcon, IonTitle, } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { arrowBack } from 'ionicons/icons';
 
 @Component({
   selector: 'app-workout-detail',
-  imports: [ExerciseComponent, IonButton, IonGrid, IonRow, IonCol, IonContent, IonFooter, IonHeader, IonToolbar , IonIcon, IonTitle],
+  imports: [ExerciseComponent, IonButton, IonButtons, IonGrid, IonRow, IonCol, IonContent, IonFooter, IonHeader, IonToolbar , IonIcon, IonTitle],
   templateUrl: './workout-detail.component.html',
   styleUrl: './workout-detail.component.scss',
 })
@@ -66,9 +66,16 @@ export class WorkoutDetailComponent {
     this.currentExercise.set(this.workout()?.workoutExercises?.[0] || null);
   }
   finishWorkout() {
-    this.currentExerciseIndex.set(null);
+
+  }
+  nextExerciseOrFinish() {
+    if (this.isLastExercise()) {
+          this.currentExerciseIndex.set(null);
     this.currentExercise.set(null);
     this.isWorkoutComplete.set(true);
+    } else {
+      this.nextExercise();
+    }
   }
   nextExercise() {
     const nextIndex = (this.currentExerciseIndex() ?? -1) + 1;
@@ -81,7 +88,6 @@ export class WorkoutDetailComponent {
       this.isWorkoutComplete.set(true);
     }
   }
-
   previousExercise() {
     const prevIndex = (this.currentExerciseIndex() ?? 0) - 1;
     if (prevIndex >= 0) {

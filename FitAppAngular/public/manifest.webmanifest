@@ -1,6 +1,6 @@
 {
-  "name": "fit-app",
-  "short_name": "fit-app",
+  "name": "Overtone",
+  "short_name": "Overtone",
   "display": "standalone",
   "scope": "./",
   "start_url": "./",

@@ -9,6 +9,6 @@ import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
   styleUrl: './app.scss'
 })
 export class App {
-  protected readonly title = signal('fit-app');
+  protected readonly title = signal('Overtone');
   public readonly wakeLockStore = inject(WakeLockStore);
 }

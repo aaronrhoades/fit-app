@@ -7,13 +7,13 @@ import { Router } from '@angular/router';
 import { catchError, switchMap } from 'rxjs/operators';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { of } from 'rxjs';
-import { IonButton, IonButtons, IonGrid, IonRow, IonCol, IonContent, IonFooter, IonHeader, IonToolbar, IonIcon, IonTitle, } from '@ionic/angular/standalone';
+import { IonButton, IonGrid, IonRow, IonCol, IonContent, IonFooter, IonHeader, IonToolbar, IonIcon, IonTitle, } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { arrowBack } from 'ionicons/icons';
 
 @Component({
   selector: 'app-workout-detail',
-  imports: [ExerciseComponent, IonButton, IonButtons, IonGrid, IonRow, IonCol, IonContent, IonFooter, IonHeader, IonToolbar , IonIcon, IonTitle],
+  imports: [ExerciseComponent, IonButton, IonGrid, IonRow, IonCol, IonContent, IonFooter, IonHeader, IonToolbar , IonIcon, IonTitle],
   templateUrl: './workout-detail.component.html',
   styleUrl: './workout-detail.component.scss',
 })

@@ -59,14 +59,23 @@
 @else if(currentExerciseIndex() !== null && !isWorkoutComplete()) {
     <ion-footer>
         <ion-toolbar>
-            <ion-buttons slot="start" style="width: 100%; display: flex; justify-content: space-evenly;">
-                <ion-button (click)="previousExercise()" [disabled]="isFirstExercise()" class="flex-1" expand="block" fill="solid" color="primary">
+            <div style="display: flex; gap: 12px; padding: 8px 16px;">
+                <ion-button (click)="previousExercise()" 
+                    [disabled]="isFirstExercise()"
+                    class="flex-1"
+                    expand="block"
+                    fill="solid"
+                    color="primary">
                     Previous
                 </ion-button>
-                <ion-button (click)="nextExerciseOrFinish()"expand="block" class="flex-1" fill="solid" color="primary">
+                <ion-button (click)="nextExerciseOrFinish()"
+                    class="flex-1"
+                    expand="block"
+                    fill="solid"
+                    color="primary">
                     {{isLastExercise() ? 'Finish' : 'Next'}}
                 </ion-button>
-            </ion-buttons>
+            </div>
         </ion-toolbar>
     </ion-footer>
 } @else if (isWorkoutComplete()) {

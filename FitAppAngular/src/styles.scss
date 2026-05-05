@@ -1,7 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 /* Core Ionic CSS */
 @import "@ionic/angular/css/core.css";
-
+/* Theme variables, must come after core.css and before other ionic styles */
+@import "./theme/variables.scss";
 /* Basic CSS for apps built with Ionic */
 @import "@ionic/angular/css/normalize.css";
 @import "@ionic/angular/css/structure.css";

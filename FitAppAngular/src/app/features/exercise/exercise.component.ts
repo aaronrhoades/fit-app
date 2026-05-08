@@ -1,4 +1,4 @@
-import { Component, effect, inject, input, OnDestroy, OnInit, output, signal } from '@angular/core';
+import { Component, inject, input, OnDestroy, OnInit, output } from '@angular/core';
 import { WakeLockStore } from '@core/store/wake-lock-store';
 import { Exercise } from './exercise';
 import { TimerComponent } from '@shared/components/timer/timer.component';

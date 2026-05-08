@@ -35,7 +35,7 @@ export class TimerComponent implements OnDestroy {
 
   durationEffect = effect(() => {
     const dur = this.duration();
-    const reset = this.resetKey();
+    this.resetKey(); // Access resetKey to trigger this effect when it changes
     this.resetTimer(dur);
   });
 

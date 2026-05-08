@@ -1,7 +1,11 @@
 <h2>
-    {{exercise?.title}}
+    {{exercise()?.title}}
 </h2>
 <p>
-    {{reps !== null ? 'Reps: ' + reps : ''}}
-    {{timer !== null ? 'Timer: ' + timer + ' seconds' : ''}}
+    {{reps() !== null ? 'Reps: ' + reps() : ''}}
+    {{timer() !== null ? timer() + ' seconds' : ''}}
 </p>
+@if(timer() !== null)
+{
+    <app-timer [duration]="timer()" [resetKey]="exerciseKey()" (finished)="onTimerFinished()"></app-timer>
+}

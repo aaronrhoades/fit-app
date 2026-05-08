@@ -36,13 +36,15 @@
                 </ion-col>
             </ion-row>
         }
-        @else {
+        @else if (currentExerciseIndex() !== null) {
             <ion-row>
                 <ion-col>
                     <app-exercise
                     [exercise]="currentExercise()?.exercise ?? null" 
                     [reps]="currentExercise()?.repetitions ?? null"
                     [timer]="currentExercise()?.lengthSeconds ?? null"
+                    [exerciseKey]="currentExerciseIndex()"
+                    (timerFinished)="nextExerciseOrFinish()"
                     ></app-exercise>
                 </ion-col>
             </ion-row>

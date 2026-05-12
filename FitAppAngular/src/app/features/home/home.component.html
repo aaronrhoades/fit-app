@@ -1,1 +1,27 @@
-<a [routerLink]="['/workouts']">View Workouts</a>
+<ion-header>
+    <ion-toolbar>
+        <ion-title>Home</ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <ion-grid>
+        <ion-row>
+            <ion-col>
+                <p>Welcome to Overtone! Your personal workout companion.</p>
+                <p>Track your workouts, monitor your progress, and achieve your fitness goals with ease.</p>
+            </ion-col>
+        </ion-row>
+         <ion-row>
+            <ion-col>
+                <p>Ready to get started?</p>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+                <ion-button (click)="navigateToWorkouts()" expand="block">
+                    View Workouts&nbsp;<ion-icon name="barbell"></ion-icon>
+                </ion-button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

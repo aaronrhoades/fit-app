@@ -1,0 +1,11 @@
+@if(timerIsVisible() !== false)
+{
+    <div width="100%" class="timer-wrapper">
+        <div class="timer-container"> 
+            <span class="timer-int">{{ getFormattedTime().split('.')[0] }}</span>
+            <span class="timer-dot">.</span>
+            <span class="timer-float">{{ getFormattedTime().split('.')[1] }}</span>
+        </div>
+        <ion-progress-bar [value]="progress()"></ion-progress-bar>
+    </div>
+}

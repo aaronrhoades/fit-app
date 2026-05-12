@@ -9,6 +9,7 @@ namespace FitAppApi.Controllers
         [HttpGet]
         public IActionResult GetHealth()
         {
+            // API health check for AWS
             return Ok(new { Status = "Healthy" });
         }
     }

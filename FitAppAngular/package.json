@@ -45,6 +45,7 @@
     "@angular/build": "^21.2.9",
     "@angular/cli": "^21.2.9",
     "@angular/compiler-cli": "^21.2.11",
+    "@capacitor/assets": "^3.0.5",
     "@eslint/js": "^10.0.1",
     "@ngrx/signals": "^21.1.0",
     "@types/dom-screen-wake-lock": "^1.0.3",

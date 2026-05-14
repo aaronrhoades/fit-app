@@ -44,7 +44,7 @@
                     [reps]="currentExercise()?.repetitions ?? null"
                     [timer]="currentExercise()?.lengthSeconds ?? null"
                     [exerciseKey]="currentExerciseIndex()"
-                    (timerFinished)="nextExerciseOrFinish()"
+                    (timerFinished)="nextExerciseOrFinish(null)"
                     ></app-exercise>
                 </ion-col>
             </ion-row>
@@ -62,7 +62,7 @@
     <ion-footer>
         <ion-toolbar>
             <div style="display: flex; gap: 12px; padding: 8px 16px;">
-                <ion-button (click)="previousExercise()" 
+                <ion-button (click)="previousExercise($event)" 
                     [disabled]="isFirstExercise()"
                     class="flex-1"
                     expand="block"
@@ -70,7 +70,7 @@
                     color="primary">
                     Previous
                 </ion-button>
-                <ion-button (click)="nextExerciseOrFinish()"
+                <ion-button (click)="nextExerciseOrFinish($event)"
                     class="flex-1"
                     expand="block"
                     fill="solid"

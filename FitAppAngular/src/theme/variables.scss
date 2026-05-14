@@ -3,21 +3,21 @@
   --ion-font-family: 'Montserrat', sans-serif;
 
   /* 2. Brand Colors */
-  --ion-color-primary: #007e13;
-  --ion-color-primary-rgb: 0, 126, 19;
+  --ion-color-primary: #ff5733;
+  --ion-color-primary-rgb: 255, 87, 51;
   --ion-color-primary-contrast: #ffffff;
   --ion-color-primary-contrast-rgb: 255, 255, 255;
-  --ion-color-primary-shade: #026b12;
-  --ion-color-primary-tint: #3f984c;
+  --ion-color-primary-shade: #e04d2d;
+  --ion-color-primary-tint: #ff6847;
 }
 
 /* 3. Dark Mode support (Optional but recommended) */
 @media (prefers-color-scheme: dark) {
     body {
-        --ion-color-primary: #007e13;
-        --ion-color-primary-rgb: 0, 126, 19;
-        --ion-color-primary-shade: #026b12;
-        --ion-color-primary-tint: #3f984c;
+        --ion-color-primary: #FF5733;
+        --ion-color-primary-rgb: 255, 87, 51;
+        --ion-color-primary-shade: #b73f24;
+        --ion-color-primary-tint: #ff7758;
         /* Sets text to white for buttons */
         --ion-color-primary-contrast: #ffffff;
         --ion-color-primary-contrast-rgb: 255, 255, 255;

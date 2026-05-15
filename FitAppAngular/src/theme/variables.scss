@@ -1,8 +1,8 @@
 :root {
-  /* 1. Custom Typography */
+  /* Custom Typography */
   --ion-font-family: 'Montserrat', sans-serif;
 
-  /* 2. Brand Colors */
+  /* Brand Colors */
   --ion-color-primary: #ff5733;
   --ion-color-primary-rgb: 255, 87, 51;
   --ion-color-primary-contrast: #ffffff;
@@ -17,9 +17,17 @@
     --ion-color-success-tint: var(--ion-color-success);
     --ion-color-warning-tint: var(--ion-color-warning);
   }
+  @media (pointer: coarse) {
+      /* On touch devices, disable the hover background change */
+      --ion-color-primary-tint: var(--ion-color-primary);
+      --ion-color-secondary-tint: var(--ion-color-secondary);
+      --ion-color-danger-tint: var(--ion-color-danger);
+      --ion-color-success-tint: var(--ion-color-success);
+      --ion-color-warning-tint: var(--ion-color-warning);
+  }
 }
 
-/* 3. Dark Mode support (Optional but recommended) */
+/* Dark Mode support (Optional but recommended) */
 @media (prefers-color-scheme: dark) {
     body {
         --ion-color-primary: #FF5733;

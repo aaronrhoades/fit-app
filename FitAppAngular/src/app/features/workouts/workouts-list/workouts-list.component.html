@@ -1,4 +1,9 @@
 <ion-content>
+  @if(workouts() === null) {
+    <app-loading-animation></app-loading-animation>
+  } @else if(workouts()?.length === 0) {
+    <p>No workouts found.</p>
+  } @else {
   @for(workout of workouts(); track workout.id) {
     <ion-row>
       <ion-col>
@@ -15,4 +20,5 @@
       </ion-col>
     </ion-row>
   }
+}
 </ion-content>

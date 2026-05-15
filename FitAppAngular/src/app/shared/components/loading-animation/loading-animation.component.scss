@@ -1,0 +1,17 @@
+.spinner {
+    width: 100px;
+    height: 100px;
+    border: 10px solid #ddd;
+    border-top-color: var(--ion-color-primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+.loading-animation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}

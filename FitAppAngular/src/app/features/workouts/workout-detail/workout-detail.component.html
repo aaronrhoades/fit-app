@@ -7,49 +7,53 @@
     </ion-toolbar>
 </ion-header>
 <ion-content [forceOverscroll]="false">
-    <ion-grid>
-        @if(currentExerciseIndex() === null && !isWorkoutComplete()) {
-            <ion-row>
-                <ion-col>
-                    <p>Ready to start?</p>
-                </ion-col>
-            </ion-row>
-            <ion-row>
-                <ion-col>
-                    <p>{{ workout()?.description }}</p>
-                </ion-col>
-            </ion-row>
-            @if(workout()?.workoutExercises?.length)
-            {
+    @if(workout() === null) {
+        <app-loading-animation></app-loading-animation>
+    } @else {
+        <ion-grid>
+            @if(currentExerciseIndex() === null && !isWorkoutComplete()) {
                 <ion-row>
                     <ion-col>
-                        <p>Total Exercises: {{ workout()?.workoutExercises?.length }}</p>
+                        <p>Ready to start?</p>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>
+                        <p>{{ workout()?.description }}</p>
+                    </ion-col>
+                </ion-row>
+                @if(workout()?.workoutExercises?.length)
+                {
+                    <ion-row>
+                        <ion-col>
+                            <p>Total Exercises: {{ workout()?.workoutExercises?.length }}</p>
+                        </ion-col>
+                    </ion-row>
+                }
+            }
+            @else if(isWorkoutComplete()) {
+                <ion-row>
+                    <ion-col>
+                        <h2>Workout Complete!</h2>
+                        <p>{{ workout()?.title }}</p>
                     </ion-col>
                 </ion-row>
             }
-        }
-        @else if(isWorkoutComplete()) {
-            <ion-row>
-                <ion-col>
-                    <h2>Workout Complete!</h2>
-                    <p>{{ workout()?.title }}</p>
-                </ion-col>
-            </ion-row>
-        }
-        @else if (currentExerciseIndex() !== null) {
-            <ion-row>
-                <ion-col>
-                    <app-exercise
-                    [exercise]="currentExercise()?.exercise ?? null" 
-                    [reps]="currentExercise()?.repetitions ?? null"
-                    [timer]="currentExercise()?.lengthSeconds ?? null"
-                    [exerciseKey]="currentExerciseIndex()"
-                    (timerFinished)="nextExerciseOrFinish(null)"
-                    ></app-exercise>
-                </ion-col>
-            </ion-row>
-        }
-    </ion-grid>
+            @else if (currentExerciseIndex() !== null) {
+                <ion-row>
+                    <ion-col>
+                        <app-exercise
+                        [exercise]="currentExercise()?.exercise ?? null" 
+                        [reps]="currentExercise()?.repetitions ?? null"
+                        [timer]="currentExercise()?.lengthSeconds ?? null"
+                        [exerciseKey]="currentExerciseIndex()"
+                        (timerFinished)="nextExerciseOrFinish(null)"
+                        ></app-exercise>
+                    </ion-col>
+                </ion-row>
+            }
+        </ion-grid>
+    }
 </ion-content>
 @if(currentExerciseIndex() === null && !isWorkoutComplete()) {
     <ion-footer>

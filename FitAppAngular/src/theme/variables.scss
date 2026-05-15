@@ -9,6 +9,14 @@
   --ion-color-primary-contrast-rgb: 255, 255, 255;
   --ion-color-primary-shade: #e04d2d;
   --ion-color-primary-tint: #ff6847;
+  .android-native {
+    /* Keep the same color for hover on Android native to avoid hover effects with invisible cursor */
+    --ion-color-primary-tint: var(--ion-color-primary); 
+    --ion-color-secondary-tint: var(--ion-color-secondary);
+    --ion-color-danger-tint: var(--ion-color-danger);
+    --ion-color-success-tint: var(--ion-color-success);
+    --ion-color-warning-tint: var(--ion-color-warning);
+  }
 }
 
 /* 3. Dark Mode support (Optional but recommended) */

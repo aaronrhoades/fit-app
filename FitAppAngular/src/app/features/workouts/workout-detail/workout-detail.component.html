@@ -7,49 +7,53 @@
     </ion-toolbar>
 </ion-header>
 <ion-content [forceOverscroll]="false">
-    <ion-grid>
-        @if(currentExerciseIndex() === null && !isWorkoutComplete()) {
-            <ion-row>
-                <ion-col>
-                    <p>Ready to start?</p>
-                </ion-col>
-            </ion-row>
-            <ion-row>
-                <ion-col>
-                    <p>{{ workout()?.description }}</p>
-                </ion-col>
-            </ion-row>
-            @if(workout()?.workoutExercises?.length)
-            {
+    @if(workout() === null) {
+        <app-loading-animation></app-loading-animation>
+    } @else {
+        <ion-grid>
+            @if(currentExerciseIndex() === null && !isWorkoutComplete()) {
                 <ion-row>
                     <ion-col>
-                        <p>Total Exercises: {{ workout()?.workoutExercises?.length }}</p>
+                        <p>Ready to start?</p>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>
+                        <p>{{ workout()?.description }}</p>
+                    </ion-col>
+                </ion-row>
+                @if(workout()?.workoutExercises?.length)
+                {
+                    <ion-row>
+                        <ion-col>
+                            <p>Total Exercises: {{ workout()?.workoutExercises?.length }}</p>
+                        </ion-col>
+                    </ion-row>
+                }
+            }
+            @else if(isWorkoutComplete()) {
+                <ion-row>
+                    <ion-col>
+                        <h2>Workout Complete!</h2>
+                        <p>{{ workout()?.title }}</p>
                     </ion-col>
                 </ion-row>
             }
-        }
-        @else if(isWorkoutComplete()) {
-            <ion-row>
-                <ion-col>
-                    <h2>Workout Complete!</h2>
-                    <p>{{ workout()?.title }}</p>
-                </ion-col>
-            </ion-row>
-        }
-        @else if (currentExerciseIndex() !== null) {
-            <ion-row>
-                <ion-col>
-                    <app-exercise
-                    [exercise]="currentExercise()?.exercise ?? null" 
-                    [reps]="currentExercise()?.repetitions ?? null"
-                    [timer]="currentExercise()?.lengthSeconds ?? null"
-                    [exerciseKey]="currentExerciseIndex()"
-                    (timerFinished)="nextExerciseOrFinish()"
-                    ></app-exercise>
-                </ion-col>
-            </ion-row>
-        }
-    </ion-grid>
+            @else if (currentExerciseIndex() !== null) {
+                <ion-row>
+                    <ion-col>
+                        <app-exercise
+                        [exercise]="currentExercise()?.exercise ?? null" 
+                        [reps]="currentExercise()?.repetitions ?? null"
+                        [timer]="currentExercise()?.lengthSeconds ?? null"
+                        [exerciseKey]="currentExerciseIndex()"
+                        (timerFinished)="nextExerciseOrFinish(null)"
+                        ></app-exercise>
+                    </ion-col>
+                </ion-row>
+            }
+        </ion-grid>
+    }
 </ion-content>
 @if(currentExerciseIndex() === null && !isWorkoutComplete()) {
     <ion-footer>
@@ -62,7 +66,7 @@
     <ion-footer>
         <ion-toolbar>
             <div style="display: flex; gap: 12px; padding: 8px 16px;">
-                <ion-button (click)="previousExercise()" 
+                <ion-button (click)="previousExercise($event)" 
                     [disabled]="isFirstExercise()"
                     class="flex-1"
                     expand="block"
@@ -70,7 +74,7 @@
                     color="primary">
                     Previous
                 </ion-button>
-                <ion-button (click)="nextExerciseOrFinish()"
+                <ion-button (click)="nextExerciseOrFinish($event)"
                     class="flex-1"
                     expand="block"
                     fill="solid"

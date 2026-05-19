@@ -10,10 +10,24 @@ import { of } from 'rxjs';
 import { IonButton, IonGrid, IonRow, IonCol, IonContent, IonFooter, IonHeader, IonToolbar, IonIcon, IonTitle, } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { arrowBack } from 'ionicons/icons';
+import { LoadingAnimationComponent } from '@shared/components/loading-animation/loading-animation.component';
 
 @Component({
   selector: 'app-workout-detail',
-  imports: [ExerciseComponent, IonButton, IonGrid, IonRow, IonCol, IonContent, IonFooter, IonHeader, IonToolbar , IonIcon, IonTitle],
+  imports: [
+    ExerciseComponent,
+    IonButton,
+    IonGrid,
+    IonRow,
+    IonCol,
+    IonContent,
+    IonFooter,
+    IonHeader,
+    IonToolbar,
+    IonIcon,
+    IonTitle,
+    LoadingAnimationComponent
+  ],
   templateUrl: './workout-detail.component.html',
   styleUrl: './workout-detail.component.scss',
 })
@@ -81,18 +95,26 @@ export class WorkoutDetailComponent {
       this.isWorkoutComplete.set(true);
     }
   }
-  nextExerciseOrFinish() {
+  nextExerciseOrFinish(event: Event | null = null) {
     if (this.isLastExercise()) {
       this.finishWorkout();
     } else {
       this.nextExercise();
     }
+    // Force the button to lose focus
+    if (event instanceof Event && event.target instanceof HTMLElement) {
+      event.target.blur();
+    }
   }
-  previousExercise() {
+  previousExercise(event: Event) {
     const prevIndex = (this.currentExerciseIndex() ?? 0) - 1;
     if (prevIndex >= 0) {
       this.currentExerciseIndex.set(prevIndex);
       this.currentExercise.set(this.workout()?.workoutExercises?.[prevIndex] || null);
+    }
+    // Force the button to lose focus
+    if (event.target instanceof HTMLElement) {
+      event.target.blur();
     }
   }
   goBackToAllWorkouts() {

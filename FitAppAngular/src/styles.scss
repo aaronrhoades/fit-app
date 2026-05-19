@@ -16,7 +16,7 @@
 @import "@ionic/angular/css/flex-utils.css";
 
 /* dark mode */
-@import '@ionic/angular/css/palettes/dark.always.css';
+// @import '@ionic/angular/css/palettes/dark.always.css';
 
 :root {
   /* This ensures the app respects the Dynamic Island/Notch */
@@ -29,4 +29,30 @@ ion-footer ion-toolbar{
 }
 .flex-1 {
   flex: 1;
+}
+/* Standard button style */
+ion-button {
+  --background-hover: transparent; /* Default to no hover change on mobile */
+}
+
+/* Only apply hover effects on devices with a mouse */
+@media (any-hover: hover) {
+  ion-button:hover {
+    --background-hover: var(--ion-color-primary-shade);
+  }
+}
+@media (pointer: coarse) {
+  /* On touch devices, disable the hover background change */
+  ion-button {
+    --background-hover: var(--background);
+    --background-hover-opacity: 1;
+  }
+}
+/* Target the Ionic variable directly */
+@media (hover: none) {
+  ion-button {
+    --background-hover: var(--background);
+    --background-hover-opacity: 1;
+    --color-hover: var(--color);
+  }
 }

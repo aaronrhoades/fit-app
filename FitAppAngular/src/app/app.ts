@@ -1,4 +1,4 @@
-import { Component, signal, inject, afterNextRender } from '@angular/core';
+import { Component, inject, afterNextRender } from '@angular/core';
 import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
 import { Platform } from '@ionic/angular';
 import { DOCUMENT } from '@angular/common';

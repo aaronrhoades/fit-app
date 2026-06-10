@@ -2,7 +2,9 @@ using FitAppApi.Data;
 using FitAppApi.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using FitAppApi.AWS;
+using FitAppApi.Infrastructure.Routing;
 using Amazon.SecretsManager;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -32,7 +34,13 @@ builder.Services.AddCors(options =>
               .AllowCredentials(); // Required if you use Cookies/SignalR
     });
 });
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.Conventions.Add(
+        new RouteTokenTransformerConvention(new KebabCaseParameterTransformer())
+    );
+}
+);
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 

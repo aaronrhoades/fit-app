@@ -3,14 +3,12 @@ using FitAppApi.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
 using FitAppApi.AWS;
-using Amazon;
 using Amazon.SecretsManager;
-using Amazon.SecretsManager.Model;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddAWSService<IAmazonSecretsManager>();
-var secretService = new SecretManagerService(new AmazonSecretsManagerClient(Amazon.RegionEndpoint.USEast1));
-string connectionString = await secretService.GetDatabaseConnectionString();
+var secretManagerService = new SecretManagerService(new AmazonSecretsManagerClient(Amazon.RegionEndpoint.USEast1));
+string connectionString = await secretManagerService.GetDatabaseConnectionString();
 
 builder.Configuration["ConnectionStrings:DefaultConnection"] = connectionString; // Override the connection string in configuration with the one from AWS Secrets Manager
 

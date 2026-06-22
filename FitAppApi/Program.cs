@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using FitAppApi.AWS;
 using FitAppApi.Infrastructure.Routing;
 using Amazon.SecretsManager;
+using Amazon.S3;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddAWSService<IAmazonSecretsManager>();
+builder.Services.AddAWSService<IAmazonS3>(); // S3 client for image uploads / downloads
 var secretManagerService = new SecretManagerService(new AmazonSecretsManagerClient(Amazon.RegionEndpoint.USEast1));
 string connectionString = await secretManagerService.GetDatabaseConnectionString();
 
@@ -22,6 +24,7 @@ builder.Services.AddDbContext<FitAppDbContext>(options =>
 );
 
 builder.Services.AddScoped<IWorkoutService, WorkoutService>();
+builder.Services.AddScoped<IAssetService, AssetService>();
 
 // Add services to the container.
 builder.Services.AddCors(options =>

@@ -1,0 +1,92 @@
+<h1 class="ion-padding">{{ pageTitle() }}</h1>
+<ion-list>
+  <ion-item>
+    <ion-label position="stacked">Title</ion-label>
+    <ion-input [(ngModel)]="asset().title" placeholder="Enter a title"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="stacked">Description</ion-label>
+    <ion-textarea [(ngModel)]="asset().description" placeholder="Enter a description"></ion-textarea>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="stacked">Tags</ion-label>
+    <ion-input [(ngModel)]="asset().tags" placeholder="Comma-separated tags"></ion-input>
+  </ion-item>
+  @if (isEditMode()) {
+    <ion-item>
+      <ion-button fill="outline" size="small" (click)="replaceImage() ? replaceImage.set(false) : replaceImage.set(true)">
+        {{ replaceImage() ? 'Keep Current Image' : 'Replace with New' }}
+      </ion-button>
+        {{ replaceImage() ? 'Old image will be deleted permanently' : '' }}
+    </ion-item>
+  }
+  @if(!asset().id || replaceImage()) {
+    <ion-item>
+      <ion-label position="stacked">File</ion-label>
+      <input type="file" accept="image/*,video/*" (change)="onFileSelected($event)" />
+    </ion-item>
+    @if(fileToUpload()) {
+      <ion-item>
+        <ion-label position="stacked">
+          Selected File
+        </ion-label>
+        <div class="selected-file-info">
+          {{ fileToUpload()?.webkitRelativePath }}
+          <p>{{ fileToUpload()?.name }}</p>
+          <p>{{ (fileToUpload()?.size || 0) / 1024 / 1024 | number : '1.2-2' }} MB</p>
+        </div>
+      </ion-item>
+      @if (previewUrl()) {
+        <ion-item>
+          <ion-label position="stacked">
+            Preview
+          </ion-label>
+          @if (fileToUpload()?.type?.startsWith('image/')) {
+              <img [src]="previewUrl()" class="asset-preview" alt="Asset preview" [style.maxWidth]="'100vw'"/>
+          } @else if (fileToUpload()?.type?.startsWith('video/')) {
+              <video controls [src]="previewUrl()" class="asset-preview" [style.maxWidth]="'100vw'">
+                Could not load asset preview
+              </video>
+          }
+        </ion-item>
+      }
+    }
+  }
+  @else {
+    <ion-item>
+      <ion-label position="stacked">
+        Current File
+      </ion-label>
+      <app-asset
+        [asset]="asset()"
+        [loop]="false"
+        [hasControls]="true"
+        [isMuted]="false"
+      >
+      </app-asset>
+    </ion-item>
+  }
+</ion-list>
+<ion-row>
+  <ion-col>
+    @if (error())
+    {
+      <ion-text color="danger">{{ error() }}</ion-text>
+    }
+  </ion-col>
+</ion-row>
+<ion-row>
+  <ion-col size="12" size-md="6">
+    <ion-button expand="block" fill="outline" (click)="cancel()">
+      Cancel
+    </ion-button>
+  </ion-col>
+  <ion-col size="12" size-md="6">
+    <ion-button expand="block" (click)="save()" [disabled]="isSaving()">
+      <ion-icon slot="start" name="save-outline"></ion-icon>
+      Save Asset
+    </ion-button>
+  </ion-col>
+</ion-row>

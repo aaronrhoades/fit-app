@@ -1,0 +1,19 @@
+@if(asset()?.contentType?.startsWith('image/')) {
+  <img [src]="previewUrl()" alt="Asset Image" class="asset-image" [style.width]="width() ? width() + 'px' : 'auto'">
+} @else if(asset()?.contentType?.startsWith('video/')) {
+  <video
+    class="asset-video"
+    alt="Asset Video"
+    [src]="previewUrl()"
+    [controls]="hasControls()"
+    [autoplay]="!hasControls()"
+    [muted]="isMuted()"
+    [loop]="loop()"
+    [style.width]="width() ? width() + 'px' : 'auto'"
+    [style.maxWidth]="'100vw'"
+    >
+    Your browser does not support the video tag.
+  </video>
+} @else {
+  <p>Unsupported asset type.</p>
+}

@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="AWSSDK.Extensions.NETCore.Setup" Version="4.0.3.33" />
+    <PackageReference Include="AWSSDK.S3" Version="4.0.24.2" />
     <PackageReference Include="AWSSDK.SecretsManager" Version="4.0.4.17" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.5" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="10.0.2" />

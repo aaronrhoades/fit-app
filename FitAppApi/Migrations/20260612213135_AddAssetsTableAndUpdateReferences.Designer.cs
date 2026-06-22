@@ -3,6 +3,7 @@ using System;
 using FitAppApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FitAppApi.Migrations
 {
     [DbContext(typeof(FitAppDbContext))]
-    partial class FitAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260612213135_AddAssetsTableAndUpdateReferences")]
+    partial class AddAssetsTableAndUpdateReferences
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -27,6 +30,12 @@ namespace FitAppApi.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
+
+                    b.Property<Guid?>("AssociatedEntityId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int?>("AssociatedEntityType")
+                        .HasColumnType("integer");
 
                     b.Property<string>("ContentType")
                         .IsRequired()
@@ -75,6 +84,10 @@ namespace FitAppApi.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("UploadedByUserAgent")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");

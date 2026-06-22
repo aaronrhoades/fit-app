@@ -24,6 +24,11 @@ export const routes: Routes = [
         loadComponent: () => import('./features/auth/login/login.component').then(m => m.LoginComponent)
     },
     {
+        path: 'admin',
+        loadChildren: () => import('./features/admin/admin.routes').then(m => m.adminRoutes),
+        // canMatch: [authGuard]
+    },
+    {
         path: 'error-404',
         loadComponent: () => import('./features/errors/error-404/error-404.component').then(m => m.Error404Component)
     },

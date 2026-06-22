@@ -1,7 +1,7 @@
-import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { EMPTY, Observable, catchError, map, of, switchMap, tap, throwError } from 'rxjs';
+import { Injectable, inject } from '@angular/core';
 import { environment } from '@environments/environment';
+import { EMPTY, Observable, catchError, map, of, switchMap, throwError } from 'rxjs';
 import { Asset } from '../models/asset';
 
 export interface UploadUrlResponse {

@@ -1,5 +1,6 @@
 import { DecimalPipe } from '@angular/common';
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { Router, RouterLink } from '@angular/router';
 import {
   IonButton,
@@ -14,6 +15,7 @@ import { AssetComponent } from "@shared/components/asset/asset.component";
 import { LoadingAnimationComponent } from '@shared/components/loading-animation/loading-animation.component';
 import { Asset } from '@shared/models/asset';
 import { AssetService } from '@shared/services/asset.service';
+import { catchError, of } from 'rxjs';
 
 @Component({
   selector: 'app-asset-list',
@@ -34,24 +36,20 @@ import { AssetService } from '@shared/services/asset.service';
   templateUrl: './asset-list.component.html',
   styleUrl: './asset-list.component.scss',
 })
-export class AssetListComponent implements OnInit {
+export class AssetListComponent {
   private assetService = inject(AssetService);
   private router = inject(Router);
-  public assets = signal<Asset[] | null>(null);
   public error = signal<string | null>(null);
-  ngOnInit() {
-    this.loadAssets();
-  }
-
-  private loadAssets(): void {
-    this.assetService.getAssets().subscribe({
-      next: assets => this.assets.set(assets),
-      error: err => {
+  public assets = toSignal<Asset[]>(
+    this.assetService.getAssets().pipe(
+      catchError(err => {
         console.error('Failed to load assets', err);
         this.error.set('Failed to load assets');
-      },
-    });
-  }
+        return of([]); // Return fallback value on error
+      })
+    ),
+    { initialValue: null }
+  );
 
   public backToAdminDashboard() {
     this.router.navigate(['admin']);

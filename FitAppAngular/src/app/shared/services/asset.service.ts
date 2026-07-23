@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { Service, inject } from '@angular/core';
 import { environment } from '@environments/environment';
 import { EMPTY, Observable, catchError, map, of, switchMap, throwError } from 'rxjs';
 import { Asset } from '../models/asset';
@@ -9,7 +9,7 @@ export interface UploadUrlResponse {
   fileKey: string;
 }
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class AssetService {
   private http = inject(HttpClient);
   private apiUrl = environment.apiUrl;

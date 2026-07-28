@@ -26,8 +26,9 @@ namespace FitAppApi.Services
         public async Task<IEnumerable<Workout>> GetAllAsync()
         {
             return await _context.Workouts
+                .Include(w => w.ImageAsset)
                 .Include(w => w.WorkoutExercises.OrderBy(we => we.Order))        // Get the join table and order by the 'Order' property
-                    .ThenInclude(we => we.Exercise)     // Get the actual Exercise details (Name, Image, etc.)
+                    .ThenInclude(we => we.Exercise)     // Get the actual Exercise details
                 .ToListAsync();
         }
         public async Task<Workout?> GetByIdAsync(Guid id)
@@ -35,6 +36,10 @@ namespace FitAppApi.Services
             return await _context.Workouts
                 .Include(w => w.WorkoutExercises.OrderBy(we => we.Order))        // Get the join table and order by the 'Order' property
                     .ThenInclude(we => we.Exercise)     // Get the actual Exercise details (Name, Image, etc.)
+                        .ThenInclude(e => e.VideoAsset)
+                .Include(w => w.WorkoutExercises.OrderBy(we => we.Order))
+                    .ThenInclude(we => we.Exercise)
+                        .ThenInclude(e => e.ImageAsset)
                 .FirstOrDefaultAsync(w => w.Id == id);
         }
 
@@ -54,7 +59,8 @@ namespace FitAppApi.Services
             // Update the workout properties
             workout.Title = entity.Title;
             workout.Description = entity.Description;
-            workout.ImageUrl = entity.ImageUrl;
+            workout.ImageAssetId = entity.ImageAssetId;
+            workout.ImageAsset = entity.ImageAsset;
             // Note: Updating WorkoutExercises is more complex and may require additional logic to handle additions, deletions, and updates of exercises within the workout. This example assumes you are only updating the workout's basic properties.
 
             // Update other properties as needed

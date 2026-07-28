@@ -2,6 +2,7 @@ name: CI - Backend Build Validation
 
 on:
   pull_request:
+    types: [opened, reopened, synchronize]
     branches:
       - main
     paths:

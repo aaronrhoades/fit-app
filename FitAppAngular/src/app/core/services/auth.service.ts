@@ -1,11 +1,9 @@
-import { Injectable, signal, inject } from '@angular/core';
+import { signal, inject, Service } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
 import { LoginRequest } from '@models/index';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class AuthService {
   private http = inject(HttpClient);
   

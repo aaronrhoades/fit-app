@@ -22,6 +22,66 @@ namespace FitAppApi.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("FitAppApi.Models.Asset", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("ContentType")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<string>("FileKey")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<long>("Size")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Tags")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("text");
+
+                    b.Property<string>("UploadedByIp")
+                        .HasColumnType("text");
+
+                    b.Property<string>("UploadedByUserAgent")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Assets");
+                });
+
             modelBuilder.Entity("FitAppApi.Models.Exercise", b =>
                 {
                     b.Property<Guid>("Id")
@@ -30,22 +90,28 @@ namespace FitAppApi.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)");
 
-                    b.Property<string>("ImageUrl")
-                        .HasColumnType("text");
+                    b.Property<Guid?>("ImageAssetId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.Property<int>("Type")
                         .HasColumnType("integer");
 
-                    b.Property<string>("VideoUrl")
-                        .HasColumnType("text");
+                    b.Property<Guid?>("VideoAssetId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ImageAssetId");
+
+                    b.HasIndex("VideoAssetId");
 
                     b.ToTable("Exercises");
                 });
@@ -57,15 +123,19 @@ namespace FitAppApi.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Description")
-                        .HasColumnType("text");
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)");
 
-                    b.Property<string>("ImageUrl")
-                        .HasColumnType("text");
+                    b.Property<Guid?>("ImageAssetId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Title")
-                        .HasColumnType("text");
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ImageAssetId");
 
                     b.ToTable("Workouts");
                 });
@@ -86,7 +156,9 @@ namespace FitAppApi.Migrations
                         .HasColumnType("integer");
 
                     b.Property<int?>("PreCounterSeconds")
-                        .HasColumnType("integer");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(5);
 
                     b.Property<int?>("Repetitions")
                         .HasColumnType("integer");
@@ -103,12 +175,39 @@ namespace FitAppApi.Migrations
                     b.ToTable("WorkoutExercises");
                 });
 
+            modelBuilder.Entity("FitAppApi.Models.Exercise", b =>
+                {
+                    b.HasOne("FitAppApi.Models.Asset", "ImageAsset")
+                        .WithMany()
+                        .HasForeignKey("ImageAssetId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("FitAppApi.Models.Asset", "VideoAsset")
+                        .WithMany()
+                        .HasForeignKey("VideoAssetId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("ImageAsset");
+
+                    b.Navigation("VideoAsset");
+                });
+
+            modelBuilder.Entity("FitAppApi.Models.Workout", b =>
+                {
+                    b.HasOne("FitAppApi.Models.Asset", "ImageAsset")
+                        .WithMany()
+                        .HasForeignKey("ImageAssetId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("ImageAsset");
+                });
+
             modelBuilder.Entity("FitAppApi.Models.WorkoutExercise", b =>
                 {
                     b.HasOne("FitAppApi.Models.Exercise", "Exercise")
                         .WithMany()
                         .HasForeignKey("ExerciseId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("FitAppApi.Models.Workout", "Workout")

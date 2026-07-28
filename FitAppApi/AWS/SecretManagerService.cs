@@ -32,6 +32,6 @@ public class SecretManagerService
         $"Database={dbSettings?["dbname"]};" +
         $"Username={dbSettings?["username"]};" +
         $"Password={dbSettings?["password"]};";
-            // + $"Include Error Detail=true;"; //DEV Only
+        // + $"Include Error Detail=true;"; //DEV Only
     }
 }

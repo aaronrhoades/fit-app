@@ -2,15 +2,17 @@ using FitAppApi.Data;
 using FitAppApi.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using FitAppApi.AWS;
-using Amazon;
+using FitAppApi.Infrastructure.Routing;
 using Amazon.SecretsManager;
-using Amazon.SecretsManager.Model;
+using Amazon.S3;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddAWSService<IAmazonSecretsManager>();
-var secretService = new SecretManagerService(new AmazonSecretsManagerClient(Amazon.RegionEndpoint.USEast1));
-string connectionString = await secretService.GetDatabaseConnectionString();
+builder.Services.AddAWSService<IAmazonS3>(); // S3 client for image uploads / downloads
+var secretManagerService = new SecretManagerService(new AmazonSecretsManagerClient(Amazon.RegionEndpoint.USEast1));
+string connectionString = await secretManagerService.GetDatabaseConnectionString();
 
 builder.Configuration["ConnectionStrings:DefaultConnection"] = connectionString; // Override the connection string in configuration with the one from AWS Secrets Manager
 
@@ -22,6 +24,7 @@ builder.Services.AddDbContext<FitAppDbContext>(options =>
 );
 
 builder.Services.AddScoped<IWorkoutService, WorkoutService>();
+builder.Services.AddScoped<IAssetService, AssetService>();
 
 // Add services to the container.
 builder.Services.AddCors(options =>
@@ -34,7 +37,13 @@ builder.Services.AddCors(options =>
               .AllowCredentials(); // Required if you use Cookies/SignalR
     });
 });
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.Conventions.Add(
+        new RouteTokenTransformerConvention(new KebabCaseParameterTransformer())
+    );
+}
+);
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 

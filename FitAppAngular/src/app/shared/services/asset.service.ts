@@ -139,10 +139,12 @@ export class AssetService {
   }
 
   getViewUrl(fileKey: string): Observable<{ assetUrl: string }> {
-    return this.http.get<{ assetUrl: string }>(
-      `${this.assetServerApi}/view-url`,
-      { params: { fileKey } }
-    );
+    const encodedSegments = fileKey
+      .split('/')
+      .map(segment => encodeURIComponent(segment));
+    const encodedFileKey = encodedSegments.join('/');
+    const assetUrl = `${environment.assetServerUrl}/${encodedFileKey}`;
+    return of({ assetUrl });
   }
 
   private updateAssetMetadata(id: string, asset: Asset): Observable<Asset> {
